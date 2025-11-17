@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#d97706">
-    <meta name="description" content="Sistema de notificaÃ§Ã£o de entregas - Residencial Imperatriz">
+    <meta name="description" content="Sistema de notificação de entregas - Residencial Imperatriz">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192.png">
     <title>Portaria Digital - Residencial Imperatriz</title>
@@ -901,7 +901,7 @@
     <div class="login-screen" id="loginScreen">
         <div class="login-container">
             <div class="login-header">
-                <div class="login-logo">ðŸ¢</div>
+                <div class="login-logo">🏢</div>
                 <h1 class="login-title">Residencial Imperatriz</h1>
                 <p class="login-subtitle">Acesso seguro ao sistema de entregas</p>
             </div>
@@ -909,14 +909,14 @@
             <div class="login-card">
                 <form class="login-form" id="loginForm">
                     <div class="form-group">
-                        <label class="form-label">UsuÃ¡rio</label>
+                        <label class="form-label">Usuário</label>
                         <div class="input-wrapper">
-                            <span class="input-icon">ðŸ‘¤</span>
+                            <span class="input-icon">👤</span>
                             <input 
                                 type="text" 
                                 class="form-input" 
                                 id="username" 
-                                placeholder="Digite seu usuÃ¡rio" 
+                                placeholder="Digite seu usuário" 
                                 required
                                 autocomplete="username"
                             >
@@ -926,7 +926,7 @@
                     <div class="form-group">
                         <label class="form-label">Senha</label>
                         <div class="input-wrapper">
-                            <span class="input-icon">ðŸ”’</span>
+                            <span class="input-icon">🔒</span>
                             <input 
                                 type="password" 
                                 class="form-input" 
@@ -939,7 +939,7 @@
                     </div>
 
                     <div class="login-error" id="loginError">
-                        âš ï¸ UsuÃ¡rio ou senha incorretos
+                        ⚠️ Usuário ou senha incorretos
                     </div>
 
                     <button type="submit" class="login-button">
@@ -948,7 +948,7 @@
                 </form>
 
                 <div class="login-footer">
-                    ðŸ”’ SessÃ£o expira em 2 horas de inatividade
+                    🔒 Sessão expira em 2 horas de inatividade
                 </div>
             </div>
         </div>
@@ -960,10 +960,10 @@
         <header class="header">
             <div class="header-content">
                 <div class="header-left">
-                    <div class="logo-container">ðŸ¢</div>
+                    <div class="logo-container">🏢</div>
                     <div class="header-text">
                         <h1>Residencial Imperatriz</h1>
-                        <p>Sistema de NotificaÃ§Ã£o de Entregas</p>
+                        <p>Sistema de Notificação de Entregas</p>
                     </div>
                 </div>
                 <button class="logout-button" id="logoutButton">
@@ -975,12 +975,12 @@
         <!-- Search Section -->
         <section class="search-section">
             <div class="search-container">
-                <span class="search-icon">ðŸ”</span>
+                <span class="search-icon">🔍</span>
                 <input 
                     type="number" 
                     class="search-input" 
                     id="searchInput" 
-                    placeholder="Digite o nÃºmero do apartamento..."
+                    placeholder="Digite o número do apartamento..."
                     inputmode="numeric"
                     autocomplete="off"
                 >
@@ -994,12 +994,12 @@
 
         <!-- Grid Section -->
         <section class="grid-section" id="gridSection">
-            <!-- Apartamentos serÃ£o gerados aqui -->
+            <!-- Apartamentos serão gerados aqui -->
         </section>
 
         <!-- No Results -->
         <div class="no-results" id="noResults">
-            <div class="no-results-icon">ðŸ”</div>
+            <div class="no-results-icon">🔍</div>
             <div class="no-results-text">Nenhum apartamento encontrado</div>
         </div>
     </div>
@@ -1013,15 +1013,15 @@
             </div>
             <div class="delivery-options">
                 <button class="delivery-btn normal" onclick="sendDelivery('normal')">
-                    <span class="btn-icon">ðŸ“¦</span>
+                    <span class="btn-icon">📦</span>
                     <span>Encomenda Normal</span>
                 </button>
                 <button class="delivery-btn urgent" onclick="sendDelivery('urgente')">
-                    <span class="btn-icon">ðŸ””</span>
+                    <span class="btn-icon">🔔</span>
                     <span>Delivery Urgente</span>
                 </button>
                 <button class="delivery-btn cancel" onclick="closeModal()">
-                    <span class="btn-icon">âœ•</span>
+                    <span class="btn-icon">✕</span>
                     <span>Cancelar</span>
                 </button>
             </div>
@@ -1032,22 +1032,22 @@
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-content">
             <div class="spinner"></div>
-            <div class="loading-text">Enviando notificaÃ§Ã£o...</div>
+            <div class="loading-text">Enviando notificação...</div>
         </div>
     </div>
 
     <!-- Toast -->
     <div class="toast" id="toast">
-        <div class="toast-icon">âœ…</div>
+        <div class="toast-icon">✅</div>
         <div class="toast-content">
-            <div class="toast-title">NotificaÃ§Ã£o Enviada!</div>
+            <div class="toast-title">Notificação Enviada!</div>
             <div class="toast-message" id="toastMessage">Apartamento 101 foi notificado</div>
         </div>
     </div>
 
     <script>
         // ==========================================
-        // CONFIGURAÃ‡ÃƒO
+        // CONFIGURAÇÃO
         // ==========================================
         const CONFIG = {
             username: 'porteiro',
@@ -1076,7 +1076,7 @@
         let selectedApartment = null;
 
         // ==========================================
-        // AUTENTICAÃ‡ÃƒO
+        // AUTENTICAÇÃO
         // ==========================================
         function checkAuth() {
             const authData = localStorage.getItem('portariaAuth');
@@ -1146,7 +1146,7 @@
         function generateApartments() {
             gridSection.innerHTML = '';
             
-            // ðŸ”„ ORDEM CRESCENTE: 1 a 20
+            // 🔄 ORDEM CRESCENTE: 1 a 20
             for (let floor = 1; floor <= 20; floor++) {
                 const floorContainer = document.createElement('div');
                 floorContainer.className = 'floor-container';
@@ -1156,8 +1156,8 @@
                 floorHeader.className = 'floor-header';
                 floorHeader.innerHTML = `
                     <div class="floor-title">
-                        ${floor}Âº Andar
-                        <span class="floor-badge">${floor}Âº</span>
+                        ${floor}º Andar
+                        <span class="floor-badge">${floor}º</span>
                     </div>
                 `;
                 
@@ -1245,13 +1245,7 @@
         // MODAL
         // ==========================================
         function openModal(aptNumber) {
-            // Garante que é uma string
-            selectedApartment = String(aptNumber);
-            
-            // Debug
-            console.log('🏠 Apartamento selecionado:', selectedApartment);
-            console.log('📊 Tipo da variável:', typeof selectedApartment);
-            
+            selectedApartment = aptNumber;
             modalAptNumber.textContent = aptNumber;
             modalOverlay.classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -1262,8 +1256,7 @@
         function closeModal() {
             modalOverlay.classList.remove('active');
             document.body.style.overflow = '';
-            // NÃO limpe o selectedApartment aqui - será limpo após enviar
-            console.log('❌ Modal fechado');
+            selectedApartment = null;
         }
 
         modalOverlay.addEventListener('click', (e) => {
@@ -1278,39 +1271,24 @@
         // ENVIAR ENTREGA
         // ==========================================
         async function sendDelivery(tipo) {
-            // Validação robusta
-            if (!selectedApartment || selectedApartment === 'null' || selectedApartment === 'undefined') {
-                console.error('❌ Erro: Nenhum apartamento selecionado!');
-                alert('Erro: Selecione um apartamento primeiro!');
-                return;
-            }
-
-            console.log('📤 Enviando notificação...');
-            console.log('   🏠 Apartamento:', selectedApartment);
-            console.log('   ⚡ Tipo:', tipo);
+            if (!selectedApartment) return;
 
             closeModal();
             loadingOverlay.classList.add('active');
             document.body.style.overflow = 'hidden';
 
             try {
-                const payload = {
-                    apartamento: String(selectedApartment), // Força string
-                    tipo: tipo,
-                    timestamp: new Date().toISOString()
-                };
-                
-                console.log('📦 Payload enviado:', JSON.stringify(payload, null, 2));
-
                 const response = await fetch(CONFIG.webhookUrl, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify({
+                        apartamento: selectedApartment,
+                        tipo: tipo,
+                        timestamp: new Date().toISOString()
+                    })
                 });
-
-                console.log('📡 Resposta do servidor:', response.status, response.statusText);
 
                 loadingOverlay.classList.remove('active');
                 document.body.style.overflow = '';
@@ -1321,19 +1299,14 @@
                     if (navigator.vibrate) {
                         navigator.vibrate([50, 30, 50]);
                     }
-                    
-                    // Só limpa DEPOIS de usar
-                    selectedApartment = null;
-                    console.log('✅ Notificação enviada com sucesso!');
                 } else {
-                    console.error('❌ Erro na resposta:', await response.text());
                     showToast('Erro', 'error', 'Erro ao enviar notificação. Tente novamente.');
                 }
             } catch (error) {
                 loadingOverlay.classList.remove('active');
                 document.body.style.overflow = '';
-                console.error('❌ Erro na requisição:', error);
                 showToast('Erro', 'error', 'Erro de conexão. Verifique sua internet.');
+                console.error('Erro:', error);
             }
         }
 
@@ -1385,12 +1358,12 @@
         // ==========================================
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('service-worker.js')
-                .then(() => console.log('âœ… Service Worker registrado'))
-                .catch(err => console.log('âŒ Service Worker erro:', err));
+                .then(() => console.log('✅ Service Worker registrado'))
+                .catch(err => console.log('❌ Service Worker erro:', err));
         }
 
         // ==========================================
-        // INICIALIZAÃ‡ÃƒO
+        // INICIALIZAÇÃO
         // ==========================================
         checkAuth();
         generateApartments();
