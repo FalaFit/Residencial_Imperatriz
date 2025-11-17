@@ -1245,11 +1245,12 @@
         // MODAL
         // ==========================================
         function openModal(aptNumber) {
-            selectedApartment = aptNumber;
+            selectedApartment = String(aptNumber); // ← Força ser string
+            console.log('🔍 Modal aberto - Apartamento:', selectedApartment); // ← Debug
             modalAptNumber.textContent = aptNumber;
             modalOverlay.classList.add('active');
             document.body.style.overflow = 'hidden';
-            
+    
             if (navigator.vibrate) navigator.vibrate(20);
         }
 
@@ -1271,7 +1272,15 @@
         // ENVIAR ENTREGA
         // ==========================================
         async function sendDelivery(tipo) {
-            if (!selectedApartment) return;
+            if (!selectedApartment) {
+        console.error('❌ Erro: Nenhum apartamento selecionado!');
+        return;
+    }
+    
+    console.log('📤 Enviando notificação:', {
+        apartamento: selectedApartment,
+        tipo: tipo
+    });
 
             closeModal();
             loadingOverlay.classList.add('active');
