@@ -2,12 +2,12 @@
   "name": "Portaria Digital Pro - Residencial Imperatriz",
   "short_name": "Portaria Digital",
   "description": "Sistema Inteligente de Notificação de Entregas",
-  "start_url": "/",
+  "start_url": "/Residencial_Imperatriz/",
   "display": "standalone",
   "background_color": "#0f172a",
   "theme_color": "#fbbf24",
   "orientation": "portrait",
-  "scope": "/",
+  "scope": "/Residencial_Imperatriz/",
   "icons": [
     {
       "src": "icon-192.png",
@@ -28,22 +28,8 @@
       "name": "Buscar Apartamento",
       "short_name": "Buscar",
       "description": "Buscar número do apartamento",
-      "url": "/?action=search",
+      "url": "/Residencial_Imperatriz/?action=search",
       "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "screenshot-wide.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide"
-    },
-    {
-      "src": "screenshot-narrow.png",
-      "sizes": "750x1334",
-      "type": "image/png",
-      "form_factor": "narrow"
     }
   ]
 }
