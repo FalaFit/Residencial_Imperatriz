@@ -1218,10 +1218,24 @@
                 document.body.style.overflow = '';
 
                 if (response.ok) {
-                    showToast(aptToSend, tipo);
-                    if (navigator.vibrate) navigator.vibrate([50, 30, 50]);
+                    // ✅ LER O CONTEÚDO DA RESPOSTA
+                    const data = await response.json();
+                    
+                    console.log('📥 Resposta do servidor:', data);
+                    
+                    // ✅ VERIFICAR SE HOUVE ERRO
+                    if (data.erro === true) {
+                        // ❌ MOSTRAR ERRO
+                        showToast('Erro', 'error', data.mensagem || 'Apartamento não possui telefones cadastrados.');
+                        console.log('❌ Erro do servidor:', data.mensagem);
+                    } else {
+                        // ✅ MOSTRAR SUCESSO
+                        showToast(aptToSend, tipo);
+                        if (navigator.vibrate) navigator.vibrate([50, 30, 50]);
+                        console.log('✅ Sucesso!');
+                    }
+                    
                     selectedApartment = null;
-                    console.log('✅ Sucesso!');
                 } else {
                     showToast('Erro', 'error', 'Erro ao enviar. Tente novamente.');
                 }
@@ -1234,11 +1248,22 @@
         }
 
         function showToast(apt, tipo, customMessage) {
+            const toastIcon = document.querySelector('.toast-icon');
+            const toastTitle = document.querySelector('.toast-title');
+            
             if (tipo === 'error') {
+                // 🔴 ERRO
+                toastIcon.textContent = '❌';
+                toastTitle.textContent = 'Erro na Notificação';
                 toastMessage.textContent = customMessage;
+                toast.style.borderColor = 'rgba(239, 68, 68, 0.5)';
             } else {
+                // ✅ SUCESSO
+                toastIcon.textContent = '✅';
+                toastTitle.textContent = 'Notificação Enviada!';
                 const tipoText = tipo === 'urgente' ? 'Delivery Urgente' : 'Encomenda Normal';
                 toastMessage.textContent = `Apartamento ${apt} - ${tipoText}`;
+                toast.style.borderColor = 'rgba(251, 191, 36, 0.2)';
             }
             
             toast.classList.add('active');
