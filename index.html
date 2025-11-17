@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#1e40af">
+    <meta name="description" content="Sistema de notificação de entregas - Residencial Imperatriz">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <title>Portaria Digital - Residencial Imperatriz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1e40af;
+            --primary-dark: #1e3a8a;
+            --secondary: #10b981;
+            --danger: #ef4444;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 1rem;
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: var(--card);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .header h1 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        .search-section {
+            background: var(--card);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            font-size: 1.125rem;
+            border: 2px solid var(--border);
+            border-radius: 0.75rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-size: 1.25rem;
+        }
+
+        .grid-section {
+            background: var(--card);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        .floor-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .apartments-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (min-width: 640px) {
+            .apartments-grid {
+                grid-template-columns: repeat(6, 1fr);
+            }
+        }
+
+        .apt-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            padding: 1.25rem 0.5rem;
+            border-radius: 0.75rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .apt-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .apt-btn:active {
+            transform: translateY(0);
+        }
+
+        .apt-btn.hidden {
+            display: none;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            padding: 1rem;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--card);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-apt {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-subtitle {
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        .modal-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .delivery-btn {
+            padding: 1.25rem;
+            border: none;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .delivery-btn.normal {
+            background: linear-gradient(135deg, var(--secondary) 0%, #059669 100%);
+            color: white;
+        }
+
+        .delivery-btn.urgent {
+            background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%);
+            color: white;
+        }
+
+        .delivery-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .btn-cancel {
+            background: var(--border);
+            color: var(--text);
+            margin-top: 0.5rem;
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--card);
+            padding: 2rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3);
+            text-align: center;
+            z-index: 2000;
+            animation: successPop 0.5s ease-out;
+        }
+
+        .success-message.active {
+            display: block;
+        }
+
+        @keyframes successPop {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.05);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .success-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .success-subtext {
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        /* Loading */
+        .loading {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2000;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+            display: none;
+        }
+
+        .no-results.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🏢 Residencial Imperatriz</h1>
+            <p>Sistema de Notificação de Entregas</p>
+        </div>
+
+        <!-- Search Section -->
+        <div class="search-section">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input 
+                    type="number" 
+                    class="search-input" 
+                    id="searchInput" 
+                    placeholder="Digite o número do apartamento..."
+                    inputmode="numeric"
+                >
+            </div>
+        </div>
+
+        <!-- Grid Section -->
+        <div class="grid-section" id="gridSection">
+            <!-- Apartamentos serão gerados aqui -->
+        </div>
+
+        <div class="no-results" id="noResults">
+            <p>Nenhum apartamento encontrado</p>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-apt" id="modalApt">101</div>
+                <div class="modal-subtitle">Selecione o tipo de entrega</div>
+            </div>
+            <div class="modal-buttons">
+                <button class="delivery-btn normal" onclick="sendDelivery('normal')">
+                    📦 Encomenda Normal
+                </button>
+                <button class="delivery-btn urgent" onclick="sendDelivery('urgente')">
+                    🔔 Delivery Urgente
+                </button>
+                <button class="delivery-btn btn-cancel" onclick="closeModal()">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading -->
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Success Message -->
+    <div class="success-message" id="successMessage">
+        <div class="success-icon">✅</div>
+        <div class="success-text">Notificação Enviada!</div>
+        <div class="success-subtext" id="successSubtext">Apartamento 101 foi notificado</div>
+    </div>
+
+    <script>
+        // Configuração
+        const WEBHOOK_URL = 'https://planejamentocomercialtvx.app.n8n.cloud/webhook/portaria-entrega';
+        let selectedApartment = null;
+
+        // Gerar apartamentos (11-16, 21-26... até 201-206)
+        function generateApartments() {
+            const gridSection = document.getElementById('gridSection');
+            
+            for (let floor = 20; floor >= 1; floor--) {
+                const floorDiv = document.createElement('div');
+                floorDiv.innerHTML = `<div class="floor-title">${floor}º Andar</div>`;
+                
+                const grid = document.createElement('div');
+                grid.className = 'apartments-grid';
+                
+                for (let apt = 1; apt <= 6; apt++) {
+                    const aptNumber = `${floor}${apt}`;
+                    const btn = document.createElement('button');
+                    btn.className = 'apt-btn';
+                    btn.textContent = aptNumber;
+                    btn.dataset.apt = aptNumber;
+                    btn.onclick = () => openModal(aptNumber);
+                    grid.appendChild(btn);
+                }
+                
+                floorDiv.appendChild(grid);
+                gridSection.appendChild(floorDiv);
+            }
+        }
+
+        // Busca de apartamento
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const search = e.target.value.trim();
+            const allBtns = document.querySelectorAll('.apt-btn');
+            const noResults = document.getElementById('noResults');
+            let hasResults = false;
+
+            allBtns.forEach(btn => {
+                const apt = btn.dataset.apt;
+                if (search === '' || apt.includes(search)) {
+                    btn.classList.remove('hidden');
+                    btn.parentElement.parentElement.style.display = 'block';
+                    hasResults = true;
+                } else {
+                    btn.classList.add('hidden');
+                }
+            });
+
+            // Esconder andares vazios
+            document.querySelectorAll('.apartments-grid').forEach(grid => {
+                const visibleBtns = grid.querySelectorAll('.apt-btn:not(.hidden)');
+                if (visibleBtns.length === 0) {
+                    grid.parentElement.style.display = 'none';
+                }
+            });
+
+            noResults.classList.toggle('active', !hasResults && search !== '');
+        });
+
+        // Modal
+        function openModal(aptNumber) {
+            selectedApartment = aptNumber;
+            document.getElementById('modalApt').textContent = `Apartamento ${aptNumber}`;
+            document.getElementById('modal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+            selectedApartment = null;
+        }
+
+        // Enviar notificação
+        async function sendDelivery(tipo) {
+            if (!selectedApartment) return;
+
+            closeModal();
+            document.getElementById('loading').classList.add('active');
+
+            try {
+                const response = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        apartamento: selectedApartment,
+                        tipo: tipo
+                    })
+                });
+
+                if (response.ok) {
+                    showSuccess(selectedApartment, tipo);
+                } else {
+                    alert('Erro ao enviar notificação. Tente novamente.');
+                }
+            } catch (error) {
+                alert('Erro de conexão. Verifique a internet.');
+                console.error('Erro:', error);
+            } finally {
+                document.getElementById('loading').classList.remove('active');
+            }
+        }
+
+        // Mensagem de sucesso
+        function showSuccess(apt, tipo) {
+            const successMessage = document.getElementById('successMessage');
+            const tipoText = tipo === 'urgente' ? 'Delivery Urgente' : 'Encomenda Normal';
+            document.getElementById('successSubtext').textContent = 
+                `Apartamento ${apt} - ${tipoText}`;
+            
+            successMessage.classList.add('active');
+            
+            setTimeout(() => {
+                successMessage.classList.remove('active');
+                document.getElementById('searchInput').value = '';
+                document.getElementById('searchInput').dispatchEvent(new Event('input'));
+            }, 3000);
+        }
+
+        // Inicializar
+        generateApartments();
+
+        // Registrar Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js')
+                .then(() => console.log('Service Worker registrado'))
+                .catch(err => console.log('Service Worker erro:', err));
+        }
+
+        // Fechar modal ao clicar fora
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') closeModal();
+        });
+    </script>
+</body>
+</html>
