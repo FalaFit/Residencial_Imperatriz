@@ -16,7 +16,6 @@
         }
 
         :root {
-            /* Dark Theme Only - Cores Amber/Yellow/Gold */
             --bg-primary: #0f172a;
             --bg-secondary: #1e293b;
             --bg-tertiary: #334155;
@@ -26,8 +25,6 @@
             --border: rgba(251, 191, 36, 0.2);
             --shadow: rgba(0, 0, 0, 0.3);
             --shadow-lg: rgba(0, 0, 0, 0.5);
-            
-            /* Brand Colors - Amber/Yellow/Gold */
             --primary: #fbbf24;
             --primary-dark: #f59e0b;
             --primary-light: #fcd34d;
@@ -35,34 +32,24 @@
             --success-dark: #059669;
             --danger: #ef4444;
             --danger-dark: #dc2626;
-            
-            /* Gradients */
             --gradient-primary: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
             --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
             --gradient-danger: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
             --gradient-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
-            
-            /* Glassmorphism */
             --glass-bg: rgba(30, 41, 59, 0.7);
             --glass-border: rgba(251, 191, 36, 0.2);
             --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-            
-            /* Spacing */
             --spacing-xs: 0.25rem;
             --spacing-sm: 0.5rem;
             --spacing-md: 1rem;
             --spacing-lg: 1.5rem;
             --spacing-xl: 2rem;
             --spacing-2xl: 3rem;
-            
-            /* Border Radius */
             --radius-sm: 0.5rem;
             --radius-md: 0.75rem;
             --radius-lg: 1rem;
             --radius-xl: 1.5rem;
             --radius-full: 9999px;
-            
-            /* Transitions */
             --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
             --transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
             --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -91,7 +78,6 @@
             pointer-events: none;
         }
 
-        /* ==================== LOGIN SCREEN ==================== */
         .login-screen {
             position: fixed;
             top: 0;
@@ -303,7 +289,6 @@
             color: var(--text-tertiary);
         }
 
-        /* ==================== MAIN APP ==================== */
         .app-container {
             position: relative;
             z-index: 1;
@@ -317,7 +302,6 @@
             display: block;
         }
 
-        /* Header */
         .header {
             background: var(--glass-bg);
             backdrop-filter: blur(20px) saturate(180%);
@@ -397,7 +381,6 @@
             transform: translateY(-2px);
         }
 
-        /* Search Section */
         .search-section {
             background: var(--glass-bg);
             backdrop-filter: blur(20px) saturate(180%);
@@ -496,7 +479,6 @@
             box-shadow: 0 4px 12px rgba(251, 191, 36, 0.4);
         }
 
-        /* Grid Section */
         .grid-section {
             animation: fadeIn 0.8s ease-out 0.3s both;
         }
@@ -601,7 +583,6 @@
             display: none;
         }
 
-        /* Modal */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -747,7 +728,6 @@
             font-size: 1.5rem;
         }
 
-        /* Loading */
         .loading-overlay {
             display: none;
             position: fixed;
@@ -791,7 +771,6 @@
             font-weight: 600;
         }
 
-        /* Toast */
         .toast {
             position: fixed;
             bottom: -100px;
@@ -837,7 +816,6 @@
             color: var(--text-secondary);
         }
 
-        /* No Results */
         .no-results {
             display: none;
             text-align: center;
@@ -866,7 +844,6 @@
             color: var(--text-secondary);
         }
 
-        /* Responsive */
         @media (max-width: 640px) {
             .header-content {
                 flex-direction: column;
@@ -890,14 +867,12 @@
             }
         }
 
-        /* Utility */
         .hidden {
             display: none !important;
         }
     </style>
 </head>
 <body>
-    <!-- ==================== LOGIN SCREEN ==================== -->
     <div class="login-screen" id="loginScreen">
         <div class="login-container">
             <div class="login-header">
@@ -912,14 +887,7 @@
                         <label class="form-label">Usuário</label>
                         <div class="input-wrapper">
                             <span class="input-icon">👤</span>
-                            <input 
-                                type="text" 
-                                class="form-input" 
-                                id="username" 
-                                placeholder="Digite seu usuário" 
-                                required
-                                autocomplete="username"
-                            >
+                            <input type="text" class="form-input" id="username" placeholder="Digite seu usuário" required autocomplete="username">
                         </div>
                     </div>
 
@@ -927,14 +895,7 @@
                         <label class="form-label">Senha</label>
                         <div class="input-wrapper">
                             <span class="input-icon">🔒</span>
-                            <input 
-                                type="password" 
-                                class="form-input" 
-                                id="password" 
-                                placeholder="Digite sua senha" 
-                                required
-                                autocomplete="current-password"
-                            >
+                            <input type="password" class="form-input" id="password" placeholder="Digite sua senha" required autocomplete="current-password">
                         </div>
                     </div>
 
@@ -954,9 +915,7 @@
         </div>
     </div>
 
-    <!-- ==================== MAIN APP ==================== -->
     <div class="app-container" id="mainApp">
-        <!-- Header -->
         <header class="header">
             <div class="header-content">
                 <div class="header-left">
@@ -966,24 +925,14 @@
                         <p>Sistema de Notificação de Entregas</p>
                     </div>
                 </div>
-                <button class="logout-button" id="logoutButton">
-                    Sair
-                </button>
+                <button class="logout-button" id="logoutButton">Sair</button>
             </div>
         </header>
 
-        <!-- Search Section -->
         <section class="search-section">
             <div class="search-container">
                 <span class="search-icon">🔍</span>
-                <input 
-                    type="number" 
-                    class="search-input" 
-                    id="searchInput" 
-                    placeholder="Digite o número do apartamento..."
-                    inputmode="numeric"
-                    autocomplete="off"
-                >
+                <input type="number" class="search-input" id="searchInput" placeholder="Digite o número do apartamento..." inputmode="numeric" autocomplete="off">
             </div>
             <div class="search-filters">
                 <button class="filter-chip active" data-floor="all">Todos os Andares</button>
@@ -992,19 +941,14 @@
             </div>
         </section>
 
-        <!-- Grid Section -->
-        <section class="grid-section" id="gridSection">
-            <!-- Apartamentos serão gerados aqui -->
-        </section>
+        <section class="grid-section" id="gridSection"></section>
 
-        <!-- No Results -->
         <div class="no-results" id="noResults">
             <div class="no-results-icon">🔍</div>
             <div class="no-results-text">Nenhum apartamento encontrado</div>
         </div>
     </div>
 
-    <!-- Modal -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-content">
             <div class="modal-header">
@@ -1028,7 +972,6 @@
         </div>
     </div>
 
-    <!-- Loading -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-content">
             <div class="spinner"></div>
@@ -1036,7 +979,6 @@
         </div>
     </div>
 
-    <!-- Toast -->
     <div class="toast" id="toast">
         <div class="toast-icon">✅</div>
         <div class="toast-content">
@@ -1046,19 +988,13 @@
     </div>
 
     <script>
-        // ==========================================
-        // CONFIGURAÇÃO
-        // ==========================================
         const CONFIG = {
             username: 'porteiro',
             password: 'imperatriz2025',
             webhookUrl: 'https://planejamentocomercialtvx.app.n8n.cloud/webhook/portaria-entrega',
-            sessionTimeout: 2 * 60 * 60 * 1000 // 2 horas
+            sessionTimeout: 2 * 60 * 60 * 1000
         };
 
-        // ==========================================
-        // ELEMENTOS DO DOM
-        // ==========================================
         const loginScreen = document.getElementById('loginScreen');
         const mainApp = document.getElementById('mainApp');
         const loginForm = document.getElementById('loginForm');
@@ -1075,9 +1011,6 @@
 
         let selectedApartment = null;
 
-        // ==========================================
-        // AUTENTICAÇÃO
-        // ==========================================
         function checkAuth() {
             const authData = localStorage.getItem('portariaAuth');
             
@@ -1140,13 +1073,9 @@
             showLogin();
         });
 
-        // ==========================================
-        // GERAR APARTAMENTOS (ORDEM CRESCENTE!)
-        // ==========================================
         function generateApartments() {
             gridSection.innerHTML = '';
             
-            // 🔄 ORDEM CRESCENTE: 1 a 20
             for (let floor = 1; floor <= 20; floor++) {
                 const floorContainer = document.createElement('div');
                 floorContainer.className = 'floor-container';
@@ -1180,9 +1109,6 @@
             }
         }
 
-        // ==========================================
-        // BUSCA
-        // ==========================================
         searchInput.addEventListener('input', (e) => {
             const search = e.target.value.trim();
             const allBtns = document.querySelectorAll('.apt-btn');
@@ -1213,9 +1139,6 @@
             }
         });
 
-        // ==========================================
-        // FILTROS
-        // ==========================================
         document.querySelectorAll('.filter-chip').forEach(chip => {
             chip.addEventListener('click', function() {
                 document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
@@ -1241,23 +1164,18 @@
             });
         });
 
-        // ==========================================
-        // MODAL
-        // ==========================================
         function openModal(aptNumber) {
-            selectedApartment = String(aptNumber); // ← Força ser string
-            console.log('🔍 Modal aberto - Apartamento:', selectedApartment); // ← Debug
+            selectedApartment = String(aptNumber);
+            console.log('🏠 Apartamento:', selectedApartment);
             modalAptNumber.textContent = aptNumber;
             modalOverlay.classList.add('active');
             document.body.style.overflow = 'hidden';
-    
             if (navigator.vibrate) navigator.vibrate(20);
         }
 
         function closeModal() {
             modalOverlay.classList.remove('active');
             document.body.style.overflow = '';
-            selectedApartment = null;
         }
 
         modalOverlay.addEventListener('click', (e) => {
@@ -1268,60 +1186,53 @@
             if (e.key === 'Escape') closeModal();
         });
 
-        // ==========================================
-        // ENVIAR ENTREGA
-        // ==========================================
         async function sendDelivery(tipo) {
             if (!selectedApartment) {
-        console.error('❌ Erro: Nenhum apartamento selecionado!');
-        return;
-    }
-    
-    console.log('📤 Enviando notificação:', {
-        apartamento: selectedApartment,
-        tipo: tipo
-    });
+                console.error('❌ Erro: apartamento null');
+                return;
+            }
+
+            const aptToSend = String(selectedApartment);
+            console.log('📤 Enviando:', aptToSend, tipo);
 
             closeModal();
             loadingOverlay.classList.add('active');
             document.body.style.overflow = 'hidden';
 
             try {
+                const payload = {
+                    apartamento: aptToSend,
+                    tipo: tipo,
+                    timestamp: new Date().toISOString()
+                };
+                
+                console.log('📦 Payload:', JSON.stringify(payload));
+
                 const response = await fetch(CONFIG.webhookUrl, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        apartamento: selectedApartment,
-                        tipo: tipo,
-                        timestamp: new Date().toISOString()
-                    })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
                 });
 
                 loadingOverlay.classList.remove('active');
                 document.body.style.overflow = '';
 
                 if (response.ok) {
-                    showToast(selectedApartment, tipo);
-                    
-                    if (navigator.vibrate) {
-                        navigator.vibrate([50, 30, 50]);
-                    }
+                    showToast(aptToSend, tipo);
+                    if (navigator.vibrate) navigator.vibrate([50, 30, 50]);
+                    selectedApartment = null;
+                    console.log('✅ Sucesso!');
                 } else {
-                    showToast('Erro', 'error', 'Erro ao enviar notificação. Tente novamente.');
+                    showToast('Erro', 'error', 'Erro ao enviar. Tente novamente.');
                 }
             } catch (error) {
                 loadingOverlay.classList.remove('active');
                 document.body.style.overflow = '';
-                showToast('Erro', 'error', 'Erro de conexão. Verifique sua internet.');
-                console.error('Erro:', error);
+                console.error('❌ Erro:', error);
+                showToast('Erro', 'error', 'Erro de conexão.');
             }
         }
 
-        // ==========================================
-        // TOAST
-        // ==========================================
         function showToast(apt, tipo, customMessage) {
             if (tipo === 'error') {
                 toastMessage.textContent = customMessage;
@@ -1339,20 +1250,13 @@
             }, 4000);
         }
 
-        // ==========================================
-        // KEYBOARD SHORTCUTS
-        // ==========================================
         document.addEventListener('keydown', (e) => {
-            // Focus search with "/"
             if (e.key === '/' && document.activeElement !== searchInput) {
                 e.preventDefault();
                 searchInput.focus();
             }
         });
 
-        // ==========================================
-        // PREVENT DOUBLE TAP ZOOM (iOS)
-        // ==========================================
         let lastTouchEnd = 0;
         document.addEventListener('touchend', (e) => {
             const now = Date.now();
@@ -1362,18 +1266,12 @@
             lastTouchEnd = now;
         }, false);
 
-        // ==========================================
-        // SERVICE WORKER
-        // ==========================================
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('service-worker.js')
-                .then(() => console.log('✅ Service Worker registrado'))
-                .catch(err => console.log('❌ Service Worker erro:', err));
+                .then(() => console.log('✅ SW OK'))
+                .catch(err => console.log('❌ SW erro:', err));
         }
 
-        // ==========================================
-        // INICIALIZAÇÃO
-        // ==========================================
         checkAuth();
         generateApartments();
     </script>
