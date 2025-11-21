@@ -362,6 +362,31 @@
             font-weight: 500;
         }
 
+        .header-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .comunicado-button {
+            padding: 0.75rem 1.5rem;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: var(--radius-md);
+            color: white;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .comunicado-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(251, 191, 36, 0.4);
+        }
+
         .logout-button {
             padding: 0.75rem 1.5rem;
             background: rgba(71, 85, 105, 0.5);
@@ -617,6 +642,12 @@
             animation: modalPop 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
+        .modal-content.large {
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
         @keyframes modalPop {
             from {
                 opacity: 0;
@@ -726,6 +757,237 @@
 
         .btn-icon {
             font-size: 1.5rem;
+        }
+
+        /* Comunicado Modal Styles */
+        .comunicado-step {
+            display: none;
+        }
+
+        .comunicado-step.active {
+            display: block;
+        }
+
+        .step-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+        }
+
+        .destinatarios-options {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .destinatario-btn {
+            padding: 1.25rem;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-lg);
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+
+        .destinatario-btn:hover {
+            border-color: var(--primary);
+            background: var(--bg-tertiary);
+            transform: translateY(-2px);
+        }
+
+        .destinatario-icon {
+            font-size: 1.5rem;
+        }
+
+        .selection-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-md);
+            border-bottom: 2px solid var(--border);
+        }
+
+        .selection-info {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+
+        .selection-count {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+        }
+
+        .toggle-all-btn {
+            padding: 0.5rem 1rem;
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .toggle-all-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .apartments-selector {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .apt-checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--spacing-sm);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .apt-checkbox-item:hover {
+            border-color: var(--primary);
+            background: var(--bg-tertiary);
+        }
+
+        .apt-checkbox-item.selected {
+            border-color: var(--primary);
+            background: rgba(251, 191, 36, 0.1);
+        }
+
+        .apt-checkbox {
+            width: 20px;
+            height: 20px;
+            margin-right: var(--spacing-md);
+            cursor: pointer;
+        }
+
+        .apt-checkbox-label {
+            flex: 1;
+            font-weight: 600;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        .mensagem-textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: var(--spacing-lg);
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: inherit;
+            resize: vertical;
+            outline: none;
+            transition: all var(--transition-base);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .mensagem-textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.1);
+        }
+
+        .mensagem-textarea::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        .char-counter {
+            text-align: right;
+            color: var(--text-tertiary);
+            font-size: 0.875rem;
+            margin-top: -0.75rem;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .step-actions {
+            display: flex;
+            gap: var(--spacing-md);
+        }
+
+        .step-btn {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .step-btn.primary {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .step-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(251, 191, 36, 0.4);
+        }
+
+        .step-btn.primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .step-btn.secondary {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            border: 2px solid var(--border);
+        }
+
+        .step-btn.secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .preview-section {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .preview-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .preview-message {
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            white-space: pre-wrap;
+            color: var(--text-primary);
+            line-height: 1.6;
         }
 
         .loading-overlay {
@@ -854,6 +1116,11 @@
                 flex-direction: column;
             }
 
+            .header-actions {
+                width: 100%;
+                flex-direction: column;
+            }
+
             .apartments-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
@@ -864,6 +1131,10 @@
 
             .modal-apt-number {
                 font-size: 2.5rem;
+            }
+
+            .step-actions {
+                flex-direction: column;
             }
         }
 
@@ -925,7 +1196,13 @@
                         <p>Sistema de Notificação de Entregas</p>
                     </div>
                 </div>
-                <button class="logout-button" id="logoutButton">Sair</button>
+                <div class="header-actions">
+                    <button class="comunicado-button" id="comunicadoButton">
+                        <span>📢</span>
+                        <span>Comunicado</span>
+                    </button>
+                    <button class="logout-button" id="logoutButton">Sair</button>
+                </div>
             </div>
         </header>
 
@@ -949,6 +1226,7 @@
         </div>
     </div>
 
+    <!-- Modal de Entrega -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-content">
             <div class="modal-header">
@@ -968,6 +1246,85 @@
                     <span class="btn-icon">✕</span>
                     <span>Cancelar</span>
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Comunicado -->
+    <div class="modal-overlay" id="comunicadoModal">
+        <div class="modal-content large">
+            <!-- Step 1: Escolher tipo de destinatário -->
+            <div class="comunicado-step active" id="step1">
+                <div class="step-title">📢 Enviar Comunicado</div>
+                <div class="destinatarios-options">
+                    <button class="destinatario-btn" onclick="selectDestinatarios('todos')">
+                        <span class="destinatario-icon">🏢</span>
+                        <span>Todos os Apartamentos</span>
+                    </button>
+                    <button class="destinatario-btn" onclick="selectDestinatarios('especificos')">
+                        <span class="destinatario-icon">🎯</span>
+                        <span>Apartamentos Específicos</span>
+                    </button>
+                </div>
+                <div class="step-actions">
+                    <button class="step-btn secondary" onclick="closeComunicadoModal()">Cancelar</button>
+                </div>
+            </div>
+
+            <!-- Step 2: Selecionar apartamentos específicos -->
+            <div class="comunicado-step" id="step2">
+                <div class="step-title">Selecionar Apartamentos</div>
+                <div class="selection-header">
+                    <div class="selection-info">
+                        <span class="selection-count" id="selectedCount">0 selecionados</span>
+                    </div>
+                    <button class="toggle-all-btn" id="toggleAllBtn" onclick="toggleAllApartments()">
+                        Selecionar Todos
+                    </button>
+                </div>
+                <div class="apartments-selector" id="apartmentsSelector"></div>
+                <div class="step-actions">
+                    <button class="step-btn secondary" onclick="goToStep(1)">Voltar</button>
+                    <button class="step-btn primary" id="nextToMessageBtn" onclick="goToStep(3)" disabled>
+                        Próximo
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 3: Escrever mensagem -->
+            <div class="comunicado-step" id="step3">
+                <div class="step-title">Escrever Mensagem</div>
+                <textarea 
+                    class="mensagem-textarea" 
+                    id="comunicadoMensagem" 
+                    placeholder="Digite sua mensagem aqui..."
+                    oninput="updateCharCounter()"
+                ></textarea>
+                <div class="char-counter" id="charCounter">0 caracteres</div>
+                <div class="step-actions">
+                    <button class="step-btn secondary" onclick="goBackFromMessage()">Voltar</button>
+                    <button class="step-btn primary" id="nextToPreviewBtn" onclick="goToStep(4)" disabled>
+                        Revisar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 4: Revisar e confirmar -->
+            <div class="comunicado-step" id="step4">
+                <div class="step-title">Confirmar Envio</div>
+                <div class="preview-section">
+                    <div class="preview-label">Destinatários:</div>
+                    <div id="previewDestinatarios" style="color: var(--text-primary); font-weight: 600; margin-bottom: var(--spacing-lg);"></div>
+                    
+                    <div class="preview-label">Prévia da mensagem:</div>
+                    <div class="preview-message" id="previewMensagem"></div>
+                </div>
+                <div class="step-actions">
+                    <button class="step-btn secondary" onclick="goToStep(3)">Voltar</button>
+                    <button class="step-btn primary" onclick="confirmSendComunicado()">
+                        Enviar Comunicado
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -995,6 +1352,13 @@
             sessionTimeout: 2 * 60 * 60 * 1000
         };
 
+        // Estado do comunicado
+        let comunicadoState = {
+            tipo: null, // 'todos' ou 'especificos'
+            apartamentosSelecionados: [],
+            mensagem: ''
+        };
+
         const loginScreen = document.getElementById('loginScreen');
         const mainApp = document.getElementById('mainApp');
         const loginForm = document.getElementById('loginForm');
@@ -1008,6 +1372,8 @@
         const loadingOverlay = document.getElementById('loadingOverlay');
         const toast = document.getElementById('toast');
         const toastMessage = document.getElementById('toastMessage');
+        const comunicadoButton = document.getElementById('comunicadoButton');
+        const comunicadoModal = document.getElementById('comunicadoModal');
 
         let selectedApartment = null;
 
@@ -1183,7 +1549,10 @@
         });
 
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeModal();
+            if (e.key === 'Escape') {
+                closeModal();
+                closeComunicadoModal();
+            }
         });
 
         async function sendDelivery(tipo) {
@@ -1201,6 +1570,7 @@
 
             try {
                 const payload = {
+                    tipoMensagem: 'entrega',
                     apartamento: aptToSend,
                     tipo: tipo,
                     timestamp: new Date().toISOString()
@@ -1218,18 +1588,14 @@
                 document.body.style.overflow = '';
 
                 if (response.ok) {
-                    // ✅ LER O CONTEÚDO DA RESPOSTA
                     const data = await response.json();
                     
                     console.log('📥 Resposta do servidor:', data);
                     
-                    // ✅ VERIFICAR SE HOUVE ERRO
                     if (data.erro === true) {
-                        // ❌ MOSTRAR ERRO
                         showToast('Erro', 'error', data.mensagem || 'Apartamento não possui telefones cadastrados.');
                         console.log('❌ Erro do servidor:', data.mensagem);
                     } else {
-                        // ✅ MOSTRAR SUCESSO
                         showToast(aptToSend, tipo);
                         if (navigator.vibrate) navigator.vibrate([50, 30, 50]);
                         console.log('✅ Sucesso!');
@@ -1252,13 +1618,11 @@
             const toastTitle = document.querySelector('.toast-title');
             
             if (tipo === 'error') {
-                // 🔴 ERRO
                 toastIcon.textContent = '❌';
                 toastTitle.textContent = 'Erro na Notificação';
                 toastMessage.textContent = customMessage;
                 toast.style.borderColor = 'rgba(239, 68, 68, 0.5)';
             } else {
-                // ✅ SUCESSO
                 toastIcon.textContent = '✅';
                 toastTitle.textContent = 'Notificação Enviada!';
                 const tipoText = tipo === 'urgente' ? 'Delivery Urgente' : 'Encomenda Normal';
@@ -1272,6 +1636,262 @@
                 toast.classList.remove('active');
                 searchInput.value = '';
                 searchInput.dispatchEvent(new Event('input'));
+            }, 4000);
+        }
+
+        // Comunicado Functions
+        comunicadoButton.addEventListener('click', openComunicadoModal);
+
+        function openComunicadoModal() {
+            comunicadoModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            resetComunicado();
+        }
+
+        function closeComunicadoModal() {
+            comunicadoModal.classList.remove('active');
+            document.body.style.overflow = '';
+            resetComunicado();
+        }
+
+        comunicadoModal.addEventListener('click', (e) => {
+            if (e.target.id === 'comunicadoModal') closeComunicadoModal();
+        });
+
+        function resetComunicado() {
+            comunicadoState = {
+                tipo: null,
+                apartamentosSelecionados: [],
+                mensagem: ''
+            };
+            goToStep(1);
+            document.getElementById('comunicadoMensagem').value = '';
+            updateCharCounter();
+        }
+
+        function goToStep(stepNumber) {
+            document.querySelectorAll('.comunicado-step').forEach(step => {
+                step.classList.remove('active');
+            });
+            document.getElementById(`step${stepNumber}`).classList.add('active');
+        }
+
+        function selectDestinatarios(tipo) {
+            comunicadoState.tipo = tipo;
+            
+            if (tipo === 'todos') {
+                // Pula para mensagem
+                goToStep(3);
+            } else {
+                // Vai para seleção
+                generateApartmentSelector();
+                goToStep(2);
+            }
+        }
+
+        function generateApartmentSelector() {
+            const selector = document.getElementById('apartmentsSelector');
+            selector.innerHTML = '';
+            
+            for (let floor = 1; floor <= 20; floor++) {
+                for (let apt = 1; apt <= 6; apt++) {
+                    const aptNumber = `${floor}${apt}`;
+                    
+                    const item = document.createElement('div');
+                    item.className = 'apt-checkbox-item';
+                    item.dataset.apt = aptNumber;
+                    
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.className = 'apt-checkbox';
+                    checkbox.id = `apt-${aptNumber}`;
+                    checkbox.value = aptNumber;
+                    checkbox.onchange = updateSelectedCount;
+                    
+                    const label = document.createElement('label');
+                    label.className = 'apt-checkbox-label';
+                    label.htmlFor = `apt-${aptNumber}`;
+                    label.textContent = `Apartamento ${aptNumber}`;
+                    
+                    item.appendChild(checkbox);
+                    item.appendChild(label);
+                    item.onclick = (e) => {
+                        if (e.target !== checkbox) {
+                            checkbox.checked = !checkbox.checked;
+                            updateSelectedCount();
+                        }
+                    };
+                    
+                    selector.appendChild(item);
+                }
+            }
+        }
+
+        function updateSelectedCount() {
+            const checkboxes = document.querySelectorAll('.apt-checkbox:checked');
+            const count = checkboxes.length;
+            
+            document.getElementById('selectedCount').textContent = `${count} selecionado${count !== 1 ? 's' : ''}`;
+            
+            // Atualiza estado
+            comunicadoState.apartamentosSelecionados = Array.from(checkboxes).map(cb => cb.value);
+            
+            // Atualiza botão
+            document.getElementById('nextToMessageBtn').disabled = count === 0;
+            
+            // Atualiza visual dos itens
+            document.querySelectorAll('.apt-checkbox-item').forEach(item => {
+                const checkbox = item.querySelector('.apt-checkbox');
+                if (checkbox.checked) {
+                    item.classList.add('selected');
+                } else {
+                    item.classList.remove('selected');
+                }
+            });
+            
+            // Atualiza botão toggle all
+            const allCheckboxes = document.querySelectorAll('.apt-checkbox');
+            const allChecked = Array.from(allCheckboxes).every(cb => cb.checked);
+            document.getElementById('toggleAllBtn').textContent = allChecked ? 'Desmarcar Todos' : 'Selecionar Todos';
+        }
+
+        function toggleAllApartments() {
+            const allCheckboxes = document.querySelectorAll('.apt-checkbox');
+            const allChecked = Array.from(allCheckboxes).every(cb => cb.checked);
+            
+            allCheckboxes.forEach(cb => {
+                cb.checked = !allChecked;
+            });
+            
+            updateSelectedCount();
+        }
+
+        function updateCharCounter() {
+            const mensagem = document.getElementById('comunicadoMensagem').value;
+            const count = mensagem.length;
+            document.getElementById('charCounter').textContent = `${count} caractere${count !== 1 ? 's' : ''}`;
+            
+            // Atualiza estado
+            comunicadoState.mensagem = mensagem;
+            
+            // Atualiza botão
+            document.getElementById('nextToPreviewBtn').disabled = mensagem.trim().length === 0;
+        }
+
+        function goBackFromMessage() {
+            if (comunicadoState.tipo === 'todos') {
+                goToStep(1);
+            } else {
+                goToStep(2);
+            }
+        }
+
+        function goToStep(stepNumber) {
+            document.querySelectorAll('.comunicado-step').forEach(step => {
+                step.classList.remove('active');
+            });
+            document.getElementById(`step${stepNumber}`).classList.add('active');
+            
+            // Se for step 4 (preview), atualiza preview
+            if (stepNumber === 4) {
+                updatePreview();
+            }
+        }
+
+        function updatePreview() {
+            const destinatariosText = comunicadoState.tipo === 'todos' 
+                ? 'Todos os apartamentos (120 apartamentos)' 
+                : `${comunicadoState.apartamentosSelecionados.length} apartamento${comunicadoState.apartamentosSelecionados.length !== 1 ? 's' : ''} selecionado${comunicadoState.apartamentosSelecionados.length !== 1 ? 's' : ''}`;
+            
+            document.getElementById('previewDestinatarios').textContent = destinatariosText;
+            
+            // Monta prévia com cabeçalho
+            const agora = new Date();
+            const dataHora = agora.toLocaleString('pt-BR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                timeZone: 'America/Sao_Paulo'
+            });
+            
+            const previewMensagemCompleta = `🏢 COMUNICADO OFICIAL
+Condomínio Residencial Imperatriz
+
+${comunicadoState.mensagem}
+
+---
+Portaria Digital - ${dataHora}`;
+            
+            document.getElementById('previewMensagem').textContent = previewMensagemCompleta;
+        }
+
+        async function confirmSendComunicado() {
+            const count = comunicadoState.tipo === 'todos' ? 120 : comunicadoState.apartamentosSelecionados.length;
+            
+            const confirmado = confirm(`Tem certeza que deseja enviar este comunicado para ${count} apartamento${count !== 1 ? 's' : ''}?`);
+            
+            if (!confirmado) return;
+            
+            closeComunicadoModal();
+            loadingOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            try {
+                const payload = {
+                    tipoMensagem: 'comunicado',
+                    destinatarios: comunicadoState.tipo === 'todos' ? ['todos'] : comunicadoState.apartamentosSelecionados,
+                    mensagem: comunicadoState.mensagem,
+                    timestamp: new Date().toISOString(),
+                    remetente: 'porteiro'
+                };
+                
+                console.log('📤 Payload Comunicado:', JSON.stringify(payload));
+                
+                const response = await fetch(CONFIG.webhookUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                loadingOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('📥 Resposta:', data);
+                    
+                    if (data.erro) {
+                        showToast('Erro', 'error', data.mensagem || 'Erro ao enviar comunicado.');
+                    } else {
+                        showToastComunicado(count);
+                        if (navigator.vibrate) navigator.vibrate([50, 30, 50]);
+                    }
+                } else {
+                    showToast('Erro', 'error', 'Erro ao enviar comunicado. Tente novamente.');
+                }
+            } catch (error) {
+                loadingOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+                console.error('❌ Erro:', error);
+                showToast('Erro', 'error', 'Erro de conexão.');
+            }
+        }
+
+        function showToastComunicado(count) {
+            const toastIcon = document.querySelector('.toast-icon');
+            const toastTitle = document.querySelector('.toast-title');
+            
+            toastIcon.textContent = '📢';
+            toastTitle.textContent = 'Comunicado Enviado!';
+            toastMessage.textContent = `Enviado para ${count} apartamento${count !== 1 ? 's' : ''}`;
+            toast.style.borderColor = 'rgba(251, 191, 36, 0.2)';
+            
+            toast.classList.add('active');
+            
+            setTimeout(() => {
+                toast.classList.remove('active');
             }, 4000);
         }
 
