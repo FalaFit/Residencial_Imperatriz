@@ -1307,7 +1307,7 @@
                 </div>
             </div>
 
-            <!-- Step 4: Revisar e enviar (sem confirmação) -->
+            <!-- Step 4: Revisar e enviar -->
             <div class="comunicado-step" id="step4">
                 <div class="step-title">Revisar e Enviar</div>
                 <div class="preview-section">
@@ -1765,14 +1765,20 @@
             updateSelectedCount();
         }
 
-        // ✅ FIX: Adicionado event listener ao textarea para capturar mudanças
-        document.addEventListener('DOMContentLoaded', () => {
+        // ✅ FIX CRÍTICO: Event listener adicionado ao carregar a página
+        window.addEventListener('DOMContentLoaded', () => {
             const textarea = document.getElementById('comunicadoMensagem');
             if (textarea) {
+                // ✅ Captura TODAS as mudanças no textarea
                 textarea.addEventListener('input', updateCharCounter);
+                textarea.addEventListener('change', updateCharCounter);
+                textarea.addEventListener('blur', updateCharCounter);
+                
+                console.log('✅ Event listeners configurados no textarea');
             }
         });
 
+        // ✅ FIX: Função melhorada para capturar mensagem
         function updateCharCounter() {
             const textarea = document.getElementById('comunicadoMensagem');
             const mensagem = textarea ? textarea.value : '';
@@ -1783,11 +1789,11 @@
                 charCounterEl.textContent = `${count} caractere${count !== 1 ? 's' : ''}`;
             }
             
-            // ✅ FIX CRÍTICO: Atualiza o estado com o valor do textarea
+            // ✅ FIX CRÍTICO: Atualiza o estado SEMPRE que o textarea mudar
             comunicadoState.mensagem = mensagem;
             
             console.log('📝 Mensagem atualizada:', mensagem.substring(0, 50) + '... | Total:', count, 'chars');
-            console.log('📊 Estado completo:', comunicadoState);
+            console.log('📊 Estado completo:', JSON.stringify(comunicadoState, null, 2));
             
             const nextBtn = document.getElementById('nextToPreviewBtn');
             if (nextBtn) {
@@ -1804,6 +1810,12 @@
         }
 
         function updatePreview() {
+            // ✅ FIX: Força captura da mensagem antes de mostrar preview
+            const textarea = document.getElementById('comunicadoMensagem');
+            if (textarea) {
+                comunicadoState.mensagem = textarea.value;
+            }
+            
             let destinatariosText = '';
             let count = 0;
             
@@ -1844,19 +1856,34 @@ Portaria Digital - ${dataHora}`;
             document.getElementById('previewMensagem').textContent = previewMensagemCompleta;
         }
 
-        // ✅ NOVA FUNÇÃO: Envia sem confirmação
+        // ✅ FIX CRÍTICO: Função completamente reescrita
         async function enviarComunicado() {
-            let destinatariosFinal = [];
-            
-            // ✅ FIX: Captura mensagem do textarea novamente antes de enviar
+            // ✅ GARANTIA 1: Captura mensagem do textarea IMEDIATAMENTE
             const textarea = document.getElementById('comunicadoMensagem');
             if (textarea) {
-                comunicadoState.mensagem = textarea.value;
+                comunicadoState.mensagem = textarea.value.trim();
             }
             
-            console.log('🚀 Preparando envio...');
-            console.log('📊 Estado final:', comunicadoState);
+            console.log('🚀 Iniciando envio de comunicado...');
+            console.log('📊 Estado completo:', JSON.stringify(comunicadoState, null, 2));
             
+            // ✅ VALIDAÇÃO 1: Verifica se mensagem existe
+            if (!comunicadoState.mensagem || comunicadoState.mensagem === '') {
+                alert('⚠️ Digite uma mensagem antes de enviar!');
+                goToStep(3); // Volta para step de escrever mensagem
+                return;
+            }
+            
+            // ✅ VALIDAÇÃO 2: Verifica tamanho mínimo
+            if (comunicadoState.mensagem.length < 10) {
+                alert('⚠️ A mensagem deve ter pelo menos 10 caracteres!');
+                goToStep(3);
+                return;
+            }
+            
+            let destinatariosFinal = [];
+            
+            // ✅ Monta lista de destinatários
             if (comunicadoState.tipo === 'todos') {
                 for (let floor = 1; floor <= 20; floor++) {
                     for (let apt = 1; apt <= 6; apt++) {
@@ -1874,12 +1901,6 @@ Portaria Digital - ${dataHora}`;
                 return;
             }
             
-            if (!comunicadoState.mensagem || comunicadoState.mensagem.trim() === '') {
-                alert('⚠️ Digite uma mensagem antes de enviar!');
-                goToStep(3);
-                return;
-            }
-            
             const count = destinatariosFinal.length;
             
             closeComunicadoModal();
@@ -1887,15 +1908,18 @@ Portaria Digital - ${dataHora}`;
             document.body.style.overflow = 'hidden';
             
             try {
+                // ✅ Monta payload com GARANTIA de que mensagem não está vazia
                 const payload = {
                     tipoMensagem: 'comunicado',
                     destinatarios: destinatariosFinal,
-                    mensagem: comunicadoState.mensagem.trim(),
+                    mensagem: comunicadoState.mensagem, // ✅ JÁ validado acima
                     timestamp: new Date().toISOString(),
                     remetente: 'porteiro'
                 };
                 
-                console.log('📤 Payload Comunicado:', JSON.stringify(payload, null, 2));
+                console.log('📤 Payload Final:', JSON.stringify(payload, null, 2));
+                console.log('✅ Mensagem confirmada:', payload.mensagem);
+                console.log('📏 Tamanho da mensagem:', payload.mensagem.length, 'caracteres');
                 
                 const response = await fetch(CONFIG.webhookUrl, {
                     method: 'POST',
@@ -1917,6 +1941,8 @@ Portaria Digital - ${dataHora}`;
                         if (navigator.vibrate) navigator.vibrate([50, 30, 50]);
                     }
                 } else {
+                    const errorText = await response.text();
+                    console.error('❌ Erro HTTP:', response.status, errorText);
                     showToast('Erro', 'error', 'Erro ao enviar comunicado. Tente novamente.');
                 }
             } catch (error) {
