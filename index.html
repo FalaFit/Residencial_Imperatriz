@@ -1225,7 +1225,6 @@
         </div>
     </div>
 
-    <!-- Modal de Entrega -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-content">
             <div class="modal-header">
@@ -1249,10 +1248,8 @@
         </div>
     </div>
 
-    <!-- Modal de Comunicado -->
     <div class="modal-overlay" id="comunicadoModal">
         <div class="modal-content large">
-            <!-- Step 1: Escolher tipo de destinatário -->
             <div class="comunicado-step active" id="step1">
                 <div class="step-title">📢 Enviar Comunicado</div>
                 <div class="destinatarios-options">
@@ -1270,7 +1267,6 @@
                 </div>
             </div>
 
-            <!-- Step 2: Selecionar apartamentos específicos -->
             <div class="comunicado-step" id="step2">
                 <div class="step-title">Selecionar Apartamentos</div>
                 <div class="selection-header">
@@ -1290,7 +1286,6 @@
                 </div>
             </div>
 
-            <!-- Step 3: Escrever mensagem -->
             <div class="comunicado-step" id="step3">
                 <div class="step-title">Escrever Mensagem</div>
                 <textarea 
@@ -1307,7 +1302,6 @@
                 </div>
             </div>
 
-            <!-- Step 4: Revisar e enviar -->
             <div class="comunicado-step" id="step4">
                 <div class="step-title">Revisar e Enviar</div>
                 <div class="preview-section">
@@ -1341,7 +1335,6 @@
             <div class="toast-message" id="toastMessage">Apartamento 101 foi notificado</div>
         </div>
     </div>
-
     <script>
         const CONFIG = {
             username: 'porteiro',
@@ -1793,7 +1786,6 @@
             comunicadoState.mensagem = mensagem;
             
             console.log('📝 Mensagem atualizada:', mensagem.substring(0, 50) + '... | Total:', count, 'chars');
-            console.log('📊 Estado completo:', JSON.stringify(comunicadoState, null, 2));
             
             const nextBtn = document.getElementById('nextToPreviewBtn');
             if (nextBtn) {
@@ -1858,7 +1850,7 @@ Portaria Digital - ${dataHora}`;
 
         // ✅ FIX CRÍTICO: Função completamente reescrita
         async function enviarComunicado() {
-            // ✅ GARANTIA 1: Captura mensagem do textarea IMEDIATAMENTE
+            // ✅ GARANTIA 1: Captura mensagem do textarea IMEDIATAMENTE (ANTES de fechar modal)
             const textarea = document.getElementById('comunicadoMensagem');
             if (textarea) {
                 comunicadoState.mensagem = textarea.value.trim();
@@ -1903,28 +1895,29 @@ Portaria Digital - ${dataHora}`;
             
             const count = destinatariosFinal.length;
             
+            // ✅ SALVA dados em variável local ANTES de fechar modal
+            const payloadData = {
+                tipoMensagem: 'comunicado',
+                destinatarios: destinatariosFinal,
+                mensagem: comunicadoState.mensagem, // ✅ Cópia salva
+                timestamp: new Date().toISOString(),
+                remetente: 'porteiro'
+            };
+            
+            console.log('📤 Payload Final:', JSON.stringify(payloadData, null, 2));
+            console.log('✅ Mensagem confirmada:', payloadData.mensagem);
+            console.log('📏 Tamanho da mensagem:', payloadData.mensagem.length, 'caracteres');
+            
+            // ✅ AGORA SIM pode fechar modal e resetar
             closeComunicadoModal();
             loadingOverlay.classList.add('active');
             document.body.style.overflow = 'hidden';
             
             try {
-                // ✅ Monta payload com GARANTIA de que mensagem não está vazia
-                const payload = {
-                    tipoMensagem: 'comunicado',
-                    destinatarios: destinatariosFinal,
-                    mensagem: comunicadoState.mensagem, // ✅ JÁ validado acima
-                    timestamp: new Date().toISOString(),
-                    remetente: 'porteiro'
-                };
-                
-                console.log('📤 Payload Final:', JSON.stringify(payload, null, 2));
-                console.log('✅ Mensagem confirmada:', payload.mensagem);
-                console.log('📏 Tamanho da mensagem:', payload.mensagem.length, 'caracteres');
-                
                 const response = await fetch(CONFIG.webhookUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify(payloadData) // ✅ Usa dados salvos
                 });
                 
                 loadingOverlay.classList.remove('active');
