@@ -1297,7 +1297,6 @@
                     class="mensagem-textarea" 
                     id="comunicadoMensagem" 
                     placeholder="Digite sua mensagem aqui..."
-                    oninput="updateCharCounter()"
                 ></textarea>
                 <div class="char-counter" id="charCounter">0 caracteres</div>
                 <div class="step-actions">
@@ -1308,9 +1307,9 @@
                 </div>
             </div>
 
-            <!-- Step 4: Revisar e confirmar -->
+            <!-- Step 4: Revisar e enviar (sem confirmação) -->
             <div class="comunicado-step" id="step4">
-                <div class="step-title">Confirmar Envio</div>
+                <div class="step-title">Revisar e Enviar</div>
                 <div class="preview-section">
                     <div class="preview-label">Destinatários:</div>
                     <div id="previewDestinatarios" style="color: var(--text-primary); font-weight: 600; margin-bottom: var(--spacing-lg);"></div>
@@ -1320,8 +1319,8 @@
                 </div>
                 <div class="step-actions">
                     <button class="step-btn secondary" onclick="goToStep(3)">Voltar</button>
-                    <button class="step-btn primary" onclick="confirmSendComunicado()">
-                        Enviar Comunicado
+                    <button class="step-btn primary" onclick="enviarComunicado()">
+                        📢 Enviar Comunicado
                     </button>
                 </div>
             </div>
@@ -1662,7 +1661,10 @@
                 mensagem: ''
             };
             goToStep(1);
-            document.getElementById('comunicadoMensagem').value = '';
+            const textarea = document.getElementById('comunicadoMensagem');
+            if (textarea) {
+                textarea.value = '';
+            }
             updateCharCounter();
         }
 
@@ -1763,16 +1765,34 @@
             updateSelectedCount();
         }
 
+        // ✅ FIX: Adicionado event listener ao textarea para capturar mudanças
+        document.addEventListener('DOMContentLoaded', () => {
+            const textarea = document.getElementById('comunicadoMensagem');
+            if (textarea) {
+                textarea.addEventListener('input', updateCharCounter);
+            }
+        });
+
         function updateCharCounter() {
-            const mensagem = document.getElementById('comunicadoMensagem').value;
+            const textarea = document.getElementById('comunicadoMensagem');
+            const mensagem = textarea ? textarea.value : '';
             const count = mensagem.length;
-            document.getElementById('charCounter').textContent = `${count} caractere${count !== 1 ? 's' : ''}`;
             
+            const charCounterEl = document.getElementById('charCounter');
+            if (charCounterEl) {
+                charCounterEl.textContent = `${count} caractere${count !== 1 ? 's' : ''}`;
+            }
+            
+            // ✅ FIX CRÍTICO: Atualiza o estado com o valor do textarea
             comunicadoState.mensagem = mensagem;
             
-            console.log('📝 Mensagem atualizada:', mensagem.substring(0, 50) + '...');
+            console.log('📝 Mensagem atualizada:', mensagem.substring(0, 50) + '... | Total:', count, 'chars');
+            console.log('📊 Estado completo:', comunicadoState);
             
-            document.getElementById('nextToPreviewBtn').disabled = mensagem.trim().length === 0;
+            const nextBtn = document.getElementById('nextToPreviewBtn');
+            if (nextBtn) {
+                nextBtn.disabled = mensagem.trim().length === 0;
+            }
         }
 
         function goBackFromMessage() {
@@ -1824,8 +1844,18 @@ Portaria Digital - ${dataHora}`;
             document.getElementById('previewMensagem').textContent = previewMensagemCompleta;
         }
 
-        async function confirmSendComunicado() {
+        // ✅ NOVA FUNÇÃO: Envia sem confirmação
+        async function enviarComunicado() {
             let destinatariosFinal = [];
+            
+            // ✅ FIX: Captura mensagem do textarea novamente antes de enviar
+            const textarea = document.getElementById('comunicadoMensagem');
+            if (textarea) {
+                comunicadoState.mensagem = textarea.value;
+            }
+            
+            console.log('🚀 Preparando envio...');
+            console.log('📊 Estado final:', comunicadoState);
             
             if (comunicadoState.tipo === 'todos') {
                 for (let floor = 1; floor <= 20; floor++) {
@@ -1846,14 +1876,11 @@ Portaria Digital - ${dataHora}`;
             
             if (!comunicadoState.mensagem || comunicadoState.mensagem.trim() === '') {
                 alert('⚠️ Digite uma mensagem antes de enviar!');
+                goToStep(3);
                 return;
             }
             
             const count = destinatariosFinal.length;
-            
-            const confirmado = confirm(`Tem certeza que deseja enviar este comunicado para ${count} apartamento${count !== 1 ? 's' : ''}?`);
-            
-            if (!confirmado) return;
             
             closeComunicadoModal();
             loadingOverlay.classList.add('active');
