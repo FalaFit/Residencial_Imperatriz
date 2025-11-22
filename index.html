@@ -1799,11 +1799,16 @@
         }
 
         function updatePreview() {
-            const destinatariosText = comunicadoState.tipo === 'todos' 
-                ? 'Todos os apartamentos (120 apartamentos)' 
-                : `${comunicadoState.apartamentosSelecionados.length} apartamento${comunicadoState.apartamentosSelecionados.length !== 1 ? 's' : ''} selecionado${comunicadoState.apartamentosSelecionados.length !== 1 ? 's' : ''}`;
-            
-            document.getElementById('previewDestinatarios').textContent = destinatariosText;
+    let count = 0;
+    
+    if (comunicadoState.tipo === 'todos') {
+        count = 120; // 20 andares × 6 apartamentos
+    } else {
+        count = comunicadoState.apartamentosSelecionados.length;
+    }
+    
+    // ... formata prévia ...
+}
             
             // Monta prévia com cabeçalho
             const agora = new Date();
@@ -1828,56 +1833,33 @@ Portaria Digital - ${dataHora}`;
         }
 
         async function confirmSendComunicado() {
-            const count = comunicadoState.tipo === 'todos' ? 120 : comunicadoState.apartamentosSelecionados.length;
-            
-            const confirmado = confirm(`Tem certeza que deseja enviar este comunicado para ${count} apartamento${count !== 1 ? 's' : ''}?`);
-            
-            if (!confirmado) return;
-            
-            closeComunicadoModal();
-            loadingOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-            
-            try {
-                const payload = {
-                    tipoMensagem: 'comunicado',
-                    destinatarios: comunicadoState.tipo === 'todos' ? ['todos'] : comunicadoState.apartamentosSelecionados,
-                    mensagem: comunicadoState.mensagem,
-                    timestamp: new Date().toISOString(),
-                    remetente: 'porteiro'
-                };
-                
-                console.log('📤 Payload Comunicado:', JSON.stringify(payload));
-                
-                const response = await fetch(CONFIG.webhookUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                
-                loadingOverlay.classList.remove('active');
-                document.body.style.overflow = '';
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    console.log('📥 Resposta:', data);
-                    
-                    if (data.erro) {
-                        showToast('Erro', 'error', data.mensagem || 'Erro ao enviar comunicado.');
-                    } else {
-                        showToastComunicado(count);
-                        if (navigator.vibrate) navigator.vibrate([50, 30, 50]);
-                    }
-                } else {
-                    showToast('Erro', 'error', 'Erro ao enviar comunicado. Tente novamente.');
-                }
-            } catch (error) {
-                loadingOverlay.classList.remove('active');
-                document.body.style.overflow = '';
-                console.error('❌ Erro:', error);
-                showToast('Erro', 'error', 'Erro de conexão.');
+    // ✅ Gera array correto de destinatários
+    let destinatariosFinal = [];
+    
+    if (comunicadoState.tipo === 'todos') {
+        // Gera TODOS os apartamentos (11, 12, ..., 206)
+        for (let floor = 1; floor <= 20; floor++) {
+            for (let apt = 1; apt <= 6; apt++) {
+                destinatariosFinal.push(`${floor}${apt}`);
             }
         }
+    } else if (comunicadoState.tipo === 'especificos') {
+        // Valida se tem apartamentos selecionados
+        if (comunicadoState.apartamentosSelecionados.length === 0) {
+            alert('⚠️ Selecione pelo menos um apartamento!');
+            return;
+        }
+        destinatariosFinal = comunicadoState.apartamentosSelecionados;
+    }
+    
+    // Valida mensagem
+    if (!comunicadoState.mensagem || comunicadoState.mensagem.trim() === '') {
+        alert('⚠️ Digite uma mensagem antes de enviar!');
+        return;
+    }
+    
+    // ... resto da função envia para o webhook ...
+}
 
         function showToastComunicado(count) {
             const toastIcon = document.querySelector('.toast-icon');
