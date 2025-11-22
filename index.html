@@ -759,7 +759,6 @@
             font-size: 1.5rem;
         }
 
-        /* Comunicado Modal Styles */
         .comunicado-step {
             display: none;
         }
@@ -1352,9 +1351,8 @@
             sessionTimeout: 2 * 60 * 60 * 1000
         };
 
-        // Estado do comunicado
         let comunicadoState = {
-            tipo: null, // 'todos' ou 'especificos'
+            tipo: null,
             apartamentosSelecionados: [],
             mensagem: ''
         };
@@ -1639,7 +1637,6 @@
             }, 4000);
         }
 
-        // Comunicado Functions
         comunicadoButton.addEventListener('click', openComunicadoModal);
 
         function openComunicadoModal() {
@@ -1674,16 +1671,20 @@
                 step.classList.remove('active');
             });
             document.getElementById(`step${stepNumber}`).classList.add('active');
+            
+            if (stepNumber === 4) {
+                updatePreview();
+            }
         }
 
         function selectDestinatarios(tipo) {
             comunicadoState.tipo = tipo;
             
+            console.log('🎯 Tipo selecionado:', tipo);
+            
             if (tipo === 'todos') {
-                // Pula para mensagem
                 goToStep(3);
             } else {
-                // Vai para seleção
                 generateApartmentSelector();
                 goToStep(2);
             }
@@ -1733,13 +1734,10 @@
             
             document.getElementById('selectedCount').textContent = `${count} selecionado${count !== 1 ? 's' : ''}`;
             
-            // Atualiza estado
             comunicadoState.apartamentosSelecionados = Array.from(checkboxes).map(cb => cb.value);
             
-            // Atualiza botão
             document.getElementById('nextToMessageBtn').disabled = count === 0;
             
-            // Atualiza visual dos itens
             document.querySelectorAll('.apt-checkbox-item').forEach(item => {
                 const checkbox = item.querySelector('.apt-checkbox');
                 if (checkbox.checked) {
@@ -1749,7 +1747,6 @@
                 }
             });
             
-            // Atualiza botão toggle all
             const allCheckboxes = document.querySelectorAll('.apt-checkbox');
             const allChecked = Array.from(allCheckboxes).every(cb => cb.checked);
             document.getElementById('toggleAllBtn').textContent = allChecked ? 'Desmarcar Todos' : 'Selecionar Todos';
@@ -1771,10 +1768,10 @@
             const count = mensagem.length;
             document.getElementById('charCounter').textContent = `${count} caractere${count !== 1 ? 's' : ''}`;
             
-            // Atualiza estado
             comunicadoState.mensagem = mensagem;
             
-            // Atualiza botão
+            console.log('📝 Mensagem atualizada:', mensagem.substring(0, 50) + '...');
+            
             document.getElementById('nextToPreviewBtn').disabled = mensagem.trim().length === 0;
         }
 
@@ -1786,31 +1783,26 @@
             }
         }
 
-        function goToStep(stepNumber) {
-            document.querySelectorAll('.comunicado-step').forEach(step => {
-                step.classList.remove('active');
-            });
-            document.getElementById(`step${stepNumber}`).classList.add('active');
-            
-            // Se for step 4 (preview), atualiza preview
-            if (stepNumber === 4) {
-                updatePreview();
-            }
-        }
-
         function updatePreview() {
-    let count = 0;
-    
-    if (comunicadoState.tipo === 'todos') {
-        count = 120; // 20 andares × 6 apartamentos
-    } else {
-        count = comunicadoState.apartamentosSelecionados.length;
-    }
-    
-    // ... formata prévia ...
-}
+            let destinatariosText = '';
+            let count = 0;
             
-            // Monta prévia com cabeçalho
+            if (comunicadoState.tipo === 'todos') {
+                count = 120;
+                destinatariosText = `Todos os apartamentos (${count} apartamentos)`;
+            } else if (comunicadoState.tipo === 'especificos') {
+                count = comunicadoState.apartamentosSelecionados.length;
+                destinatariosText = `${count} apartamento${count !== 1 ? 's' : ''} selecionado${count !== 1 ? 's' : ''}`;
+                
+                if (count <= 10) {
+                    destinatariosText += `: ${comunicadoState.apartamentosSelecionados.join(', ')}`;
+                }
+            } else {
+                destinatariosText = 'Nenhum destinatário selecionado';
+            }
+            
+            document.getElementById('previewDestinatarios').textContent = destinatariosText;
+            
             const agora = new Date();
             const dataHora = agora.toLocaleString('pt-BR', {
                 day: '2-digit',
@@ -1833,33 +1825,80 @@ Portaria Digital - ${dataHora}`;
         }
 
         async function confirmSendComunicado() {
-    // ✅ Gera array correto de destinatários
-    let destinatariosFinal = [];
-    
-    if (comunicadoState.tipo === 'todos') {
-        // Gera TODOS os apartamentos (11, 12, ..., 206)
-        for (let floor = 1; floor <= 20; floor++) {
-            for (let apt = 1; apt <= 6; apt++) {
-                destinatariosFinal.push(`${floor}${apt}`);
+            let destinatariosFinal = [];
+            
+            if (comunicadoState.tipo === 'todos') {
+                for (let floor = 1; floor <= 20; floor++) {
+                    for (let apt = 1; apt <= 6; apt++) {
+                        destinatariosFinal.push(`${floor}${apt}`);
+                    }
+                }
+            } else if (comunicadoState.tipo === 'especificos') {
+                if (comunicadoState.apartamentosSelecionados.length === 0) {
+                    alert('⚠️ Selecione pelo menos um apartamento!');
+                    return;
+                }
+                destinatariosFinal = comunicadoState.apartamentosSelecionados;
+            } else {
+                alert('⚠️ Erro: tipo de destinatário não definido!');
+                return;
+            }
+            
+            if (!comunicadoState.mensagem || comunicadoState.mensagem.trim() === '') {
+                alert('⚠️ Digite uma mensagem antes de enviar!');
+                return;
+            }
+            
+            const count = destinatariosFinal.length;
+            
+            const confirmado = confirm(`Tem certeza que deseja enviar este comunicado para ${count} apartamento${count !== 1 ? 's' : ''}?`);
+            
+            if (!confirmado) return;
+            
+            closeComunicadoModal();
+            loadingOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            try {
+                const payload = {
+                    tipoMensagem: 'comunicado',
+                    destinatarios: destinatariosFinal,
+                    mensagem: comunicadoState.mensagem.trim(),
+                    timestamp: new Date().toISOString(),
+                    remetente: 'porteiro'
+                };
+                
+                console.log('📤 Payload Comunicado:', JSON.stringify(payload, null, 2));
+                
+                const response = await fetch(CONFIG.webhookUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                loadingOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('📥 Resposta:', data);
+                    
+                    if (data.erro) {
+                        showToast('Erro', 'error', data.mensagem || 'Erro ao enviar comunicado.');
+                    } else {
+                        showToastComunicado(count);
+                        if (navigator.vibrate) navigator.vibrate([50, 30, 50]);
+                    }
+                } else {
+                    showToast('Erro', 'error', 'Erro ao enviar comunicado. Tente novamente.');
+                }
+            } catch (error) {
+                loadingOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+                console.error('❌ Erro:', error);
+                showToast('Erro', 'error', 'Erro de conexão.');
             }
         }
-    } else if (comunicadoState.tipo === 'especificos') {
-        // Valida se tem apartamentos selecionados
-        if (comunicadoState.apartamentosSelecionados.length === 0) {
-            alert('⚠️ Selecione pelo menos um apartamento!');
-            return;
-        }
-        destinatariosFinal = comunicadoState.apartamentosSelecionados;
-    }
-    
-    // Valida mensagem
-    if (!comunicadoState.mensagem || comunicadoState.mensagem.trim() === '') {
-        alert('⚠️ Digite uma mensagem antes de enviar!');
-        return;
-    }
-    
-    // ... resto da função envia para o webhook ...
-}
 
         function showToastComunicado(count) {
             const toastIcon = document.querySelector('.toast-icon');
